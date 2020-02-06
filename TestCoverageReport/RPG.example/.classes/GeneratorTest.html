@@ -1,0 +1,171 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: GeneratorTest</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">RPG.example</a> ]
+</div>
+
+<h1>Coverage Summary for Class: GeneratorTest (RPG.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">GeneratorTest</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (9/ 9)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (39/ 39)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package RPG.example;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import static org.junit.Assert.*;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;import org.junit.Before;
+<i>6</i>&nbsp;import org.junit.Test;
+<i>7</i>&nbsp;
+<i>8</i>&nbsp;import java.util.ArrayList;
+<i>9</i>&nbsp;import java.util.Arrays;
+<i>10</i>&nbsp;import java.util.List;
+<i>11</i>&nbsp;
+<i>12</i>&nbsp;/**
+<i>13</i>&nbsp; * Unit test for Generator
+<i>14</i>&nbsp; */
+<b class="fc"><i>15</i>&nbsp;public class GeneratorTest {</b>
+<i>16</i>&nbsp;
+<i>17</i>&nbsp;    private Generator gen;
+<i>18</i>&nbsp;    private int size;
+<i>19</i>&nbsp;    private int lower;
+<i>20</i>&nbsp;    private int upper;
+<i>21</i>&nbsp;
+<i>22</i>&nbsp;    @Before
+<i>23</i>&nbsp;    public void setUp(){
+<b class="fc"><i>24</i>&nbsp;        gen = new Generator();</b>
+<b class="fc"><i>25</i>&nbsp;        size =4;</b>
+<b class="fc"><i>26</i>&nbsp;        lower =1;</b>
+<b class="fc"><i>27</i>&nbsp;        upper =6;</b>
+<b class="fc"><i>28</i>&nbsp;    }</b>
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;    @Test
+<i>31</i>&nbsp;    public void genRandomSize() {
+<b class="fc"><i>32</i>&nbsp;        List&lt;Integer&gt; generatedRandom = gen.genRandom(size,lower,upper);</b>
+<b class="fc"><i>33</i>&nbsp;        assertEquals(&quot;List size&quot;, size, generatedRandom.size());</b>
+<b class="fc"><i>34</i>&nbsp;    }</b>
+<i>35</i>&nbsp;
+<i>36</i>&nbsp;    @Test
+<i>37</i>&nbsp;    public void genRandomSizeNegative() {
+<b class="fc"><i>38</i>&nbsp;        List&lt;Integer&gt; generatedRandom = gen.genRandom(0,lower,upper);</b>
+<b class="fc"><i>39</i>&nbsp;        assertEquals(&quot;List is empty&quot;, 0, generatedRandom.size());</b>
+<b class="fc"><i>40</i>&nbsp;    }</b>
+<i>41</i>&nbsp;
+<i>42</i>&nbsp;
+<i>43</i>&nbsp;    @Test
+<i>44</i>&nbsp;    public void genRandomSizeValues() {
+<b class="fc"><i>45</i>&nbsp;        List&lt;Integer&gt; generatedRandom = gen.genRandom(size,lower,upper);</b>
+<b class="fc"><i>46</i>&nbsp;        for (int element: generatedRandom) {</b>
+<b class="fc"><i>47</i>&nbsp;            assertTrue(&quot;Generated random value&quot;, (element&gt;=lower&amp;&amp;element&lt;=upper));</b>
+<b class="fc"><i>48</i>&nbsp;        }</b>
+<b class="fc"><i>49</i>&nbsp;    }</b>
+<i>50</i>&nbsp;
+<i>51</i>&nbsp;    @Test
+<i>52</i>&nbsp;    public void genRandomSizeValuesNegative() {
+<b class="fc"><i>53</i>&nbsp;        List&lt;Integer&gt; generatedRandom = gen.genRandom(size,upper,lower);</b>
+<b class="fc"><i>54</i>&nbsp;        assertEquals(&quot;Upper is smaller than lower bound!&quot;, 0, generatedRandom.size());</b>
+<b class="fc"><i>55</i>&nbsp;    }</b>
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;    @Test
+<i>58</i>&nbsp;    public void largestNSum() {
+<b class="fc"><i>59</i>&nbsp;        List&lt;Integer&gt; generatedRandom = new ArrayList&lt;Integer&gt;();</b>
+<b class="fc"><i>60</i>&nbsp;        generatedRandom.add(5);</b>
+<b class="fc"><i>61</i>&nbsp;        generatedRandom.add(1);</b>
+<b class="fc"><i>62</i>&nbsp;        generatedRandom.add(2);</b>
+<b class="fc"><i>63</i>&nbsp;        generatedRandom.add(4);</b>
+<b class="fc"><i>64</i>&nbsp;        generatedRandom.add(6);</b>
+<i>65</i>&nbsp;
+<b class="fc"><i>66</i>&nbsp;        assertEquals(&quot;Sum of largest 3 numbers&quot;, 15, gen.largestNSum(generatedRandom,3));</b>
+<b class="fc"><i>67</i>&nbsp;    }</b>
+<i>68</i>&nbsp;
+<i>69</i>&nbsp;
+<i>70</i>&nbsp;    @Test
+<i>71</i>&nbsp;    public void largestNSumNIndexError() {
+<b class="fc"><i>72</i>&nbsp;        List&lt;Integer&gt; generatedRandom = new ArrayList&lt;Integer&gt;();</b>
+<b class="fc"><i>73</i>&nbsp;        generatedRandom.add(5);</b>
+<b class="fc"><i>74</i>&nbsp;        generatedRandom.add(1);</b>
+<b class="fc"><i>75</i>&nbsp;        generatedRandom.add(2);</b>
+<b class="fc"><i>76</i>&nbsp;        generatedRandom.add(4);</b>
+<b class="fc"><i>77</i>&nbsp;        generatedRandom.add(6);</b>
+<i>78</i>&nbsp;
+<b class="fc"><i>79</i>&nbsp;        assertEquals(&quot;Count of numbers to sum is largest than list size&quot;, 0, gen.largestNSum(generatedRandom,55));</b>
+<b class="fc"><i>80</i>&nbsp;    }</b>
+<i>81</i>&nbsp;
+<i>82</i>&nbsp;    @Test
+<i>83</i>&nbsp;    public void generateRPG() {
+<b class="fc"><i>84</i>&nbsp;        int[] RPGValues = gen.generateRPG();</b>
+<b class="fc"><i>85</i>&nbsp;        assertTrue(&quot;Generated RPG array&quot;, (Arrays.stream(RPGValues).sum() &gt;=75 &amp;&amp; (Arrays.stream(RPGValues).filter(x -&gt; x &gt;= 15).toArray()).length &gt;=2));</b>
+<b class="fc"><i>86</i>&nbsp;    }</b>
+<i>87</i>&nbsp;
+<i>88</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-02-06 01:22</div>
+</div>
+</body>
+</html>

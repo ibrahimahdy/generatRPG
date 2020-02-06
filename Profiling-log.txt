@@ -1,0 +1,540 @@
+JAVA PROFILE 1.0.1, created Thu Feb 06 01:00:21 2020
+
+Copyright (c) 2003, 2005, Oracle and/or its affiliates. All rights reserved.
+
+Redistribution and use in source and binary forms, with or without
+modification, are permitted provided that the following conditions
+are met:
+
+  - Redistributions of source code must retain the above copyright
+    notice, this list of conditions and the following disclaimer.
+
+  - Redistributions in binary form must reproduce the above copyright
+    notice, this list of conditions and the following disclaimer in the
+    documentation and/or other materials provided with the distribution.
+
+  - Neither the name of Oracle nor the names of its
+    contributors may be used to endorse or promote products derived
+    from this software without specific prior written permission.
+
+THIS SOFTWARE IS PROVIDED BY THE COPYRIGHT HOLDERS AND CONTRIBUTORS "AS
+IS" AND ANY EXPRESS OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO,
+THE IMPLIED WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR
+PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL THE COPYRIGHT OWNER OR
+CONTRIBUTORS BE LIABLE FOR ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL,
+EXEMPLARY, OR CONSEQUENTIAL DAMAGES (INCLUDING, BUT NOT LIMITED TO,
+PROCUREMENT OF SUBSTITUTE GOODS OR SERVICES; LOSS OF USE, DATA, OR
+PROFITS; OR BUSINESS INTERRUPTION) HOWEVER CAUSED AND ON ANY THEORY OF
+LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY, OR TORT (INCLUDING
+NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE OF THIS
+SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
+
+
+Header for -agentlib:hprof (or -Xrunhprof) ASCII Output (JDK 5.0 JVMTI based)
+
+WARNING!  This file format is under development, and is subject to
+change without notice.
+
+This file contains the following types of records:
+
+THREAD START
+THREAD END      mark the lifetime of Java threads
+
+TRACE           represents a Java stack trace.  Each trace consists
+                of a series of stack frames.  Other records refer to
+                TRACEs to identify (1) where object allocations have
+                taken place, (2) the frames in which GC roots were
+                found, and (3) frequently executed methods.
+
+HEAP DUMP       is a complete snapshot of all live objects in the Java
+                heap.  Following distinctions are made:
+
+                ROOT    root set as determined by GC
+                CLS     classes 
+                OBJ     instances
+                ARR     arrays
+
+SITES           is a sorted list of allocation sites.  This identifies
+                the most heavily allocated object types, and the TRACE
+                at which those allocations occurred.
+
+CPU SAMPLES     is a statistical profile of program execution.  The VM
+                periodically samples all running threads, and assigns
+                a quantum to active TRACEs in those threads.  Entries
+                in this record are TRACEs ranked by the percentage of
+                total quanta they consumed; top-ranked TRACEs are
+                typically hot spots in the program.
+
+CPU TIME        is a profile of program execution obtained by measuring
+                the time spent in individual methods (excluding the time
+                spent in callees), as well as by counting the number of
+                times each method is called. Entries in this record are
+                TRACEs ranked by the percentage of total CPU time. The
+                "count" field indicates the number of times each TRACE 
+                is invoked.
+
+MONITOR TIME    is a profile of monitor contention obtained by measuring
+                the time spent by a thread waiting to enter a monitor.
+                Entries in this record are TRACEs ranked by the percentage
+                of total monitor contention time and a brief description
+                of the monitor.  The "count" field indicates the number of 
+                times the monitor was contended at that TRACE.
+
+MONITOR DUMP    is a complete snapshot of all the monitors and threads in 
+                the System.
+
+HEAP DUMP, SITES, CPU SAMPLES|TIME and MONITOR DUMP|TIME records are generated 
+at program exit.  They can also be obtained during program execution by typing 
+Ctrl-\ (on Solaris) or by typing Ctrl-Break (on Win32).
+
+--------
+
+THREAD START (obj=5000017d, id = 200002, name="HPROF gc_finish watcher", group="system")
+THREAD START (obj=5000017d, id = 200001, name="main", group="main")
+THREAD END (id = 200001)
+THREAD START (obj=5000017d, id = 200003, name="DestroyJavaVM", group="main")
+THREAD END (id = 200003)
+TRACE 300737:
+	java.io.FileOutputStream.access$000(FileOutputStream.java:Unknown line)
+	java.io.FileOutputStream$1.close(FileOutputStream.java:Unknown line)
+	java.io.FileDescriptor.closeAll(FileDescriptor.java:Unknown line)
+	java.io.FileOutputStream.close(FileOutputStream.java:Unknown line)
+TRACE 301045:
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+TRACE 301059:
+	java.lang.CharacterDataLatin1.toLowerCase(CharacterDataLatin1.java:Unknown line)
+	java.lang.Character.toLowerCase(Character.java:Unknown line)
+	java.lang.String.toLowerCase(String.java:Unknown line)
+	java.io.WinNTFileSystem.hashCode(WinNTFileSystem.java:Unknown line)
+TRACE 300922:
+	sun.net.util.URLUtil.urlNoFragString(URLUtil.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getNextLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+TRACE 301036:
+	java.lang.String.charAt(String.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+TRACE 300162:
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 302062:
+	java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:Unknown line)
+	sun.nio.cs.StreamEncoder.implWrite(StreamEncoder.java:Unknown line)
+	sun.nio.cs.StreamEncoder.write(StreamEncoder.java:Unknown line)
+	java.io.OutputStreamWriter.write(OutputStreamWriter.java:Unknown line)
+TRACE 302124:
+	RPG.example.NaiveGenerator.genAttribute(NaiveGenerator.java:Unknown line)
+	RPG.example.NaiveGenerator.generateRPG(NaiveGenerator.java:Unknown line)
+	RPG.example.Main.main(Main.java:Unknown line)
+TRACE 302126:
+	RPG.example.Main.main(Main.java:Unknown line)
+TRACE 301071:
+	java.lang.String.charAt(String.java:Unknown line)
+	java.lang.String$CaseInsensitiveComparator.compare(String.java:Unknown line)
+	java.lang.String$CaseInsensitiveComparator.compare(String.java:Unknown line)
+	java.lang.String.compareToIgnoreCase(String.java:Unknown line)
+TRACE 301072:
+	java.lang.String$CaseInsensitiveComparator.compare(String.java:Unknown line)
+	java.lang.String$CaseInsensitiveComparator.compare(String.java:Unknown line)
+	java.lang.String.compareToIgnoreCase(String.java:Unknown line)
+	java.io.WinNTFileSystem.compare(WinNTFileSystem.java:Unknown line)
+TRACE 301086:
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+TRACE 301272:
+	java.io.File.<init>(File.java:Unknown line)
+	sun.misc.URLClassPath$FileLoader.getResource(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+TRACE 301429:
+	sun.misc.PerfCounter.<init>(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter.newPerfCounter(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter$CoreCounters.<clinit>(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter.getReadClassBytesTime(PerfCounter.java:Unknown line)
+TRACE 301578:
+	sun.net.www.protocol.file.FileURLConnection.getPermission(FileURLConnection.java:Unknown line)
+	java.net.URLClassLoader.getPermissions(URLClassLoader.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.getPermissions(Launcher.java:Unknown line)
+	java.security.SecureClassLoader.getProtectionDomain(SecureClassLoader.java:Unknown line)
+TRACE 301553:
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	java.io.FilePermission$1.run(FilePermission.java:Unknown line)
+TRACE 301530:
+	sun.net.www.protocol.file.Handler.createFileURLConnection(Handler.java:Unknown line)
+	sun.net.www.protocol.file.Handler.openConnection(Handler.java:Unknown line)
+	sun.net.www.protocol.file.Handler.openConnection(Handler.java:Unknown line)
+	java.net.URL.openConnection(URL.java:Unknown line)
+TRACE 301477:
+	java.lang.String.<init>(String.java:Unknown line)
+	java.lang.StringBuilder.toString(StringBuilder.java:Unknown line)
+	java.io.ObjectStreamField.getClassSignature(ObjectStreamField.java:Unknown line)
+	java.io.ObjectStreamField.<init>(ObjectStreamField.java:Unknown line)
+TRACE 301622:
+	java.io.FilePermission.newPermissionCollection(FilePermission.java:Unknown line)
+	java.security.Permissions.getPermissionCollection(Permissions.java:Unknown line)
+	java.security.Permissions.add(Permissions.java:Unknown line)
+	java.net.URLClassLoader.getPermissions(URLClassLoader.java:Unknown line)
+TRACE 301420:
+	java.nio.DirectLongBufferU.<clinit>(DirectLongBufferU.java:Unknown line)
+	java.nio.DirectByteBuffer.asLongBuffer(DirectByteBuffer.java:Unknown line)
+	sun.misc.PerfCounter.<init>(PerfCounter.java:Unknown line)
+	sun.misc.PerfCounter.newPerfCounter(PerfCounter.java:Unknown line)
+TRACE 301379:
+	sun.misc.Perf$GetPerfAction.run(Perf.java:Unknown line)
+	sun.misc.Perf$GetPerfAction.run(Perf.java:Unknown line)
+	sun.misc.PerfCounter.<clinit>(PerfCounter.java:Unknown line)
+	java.net.URLClassLoader.defineClass(URLClassLoader.java:Unknown line)
+TRACE 301368:
+	sun.misc.Resource.getBytes(Resource.java:Unknown line)
+	java.net.URLClassLoader.defineClass(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.access$100(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+TRACE 301362:
+	java.io.FileInputStream.read(FileInputStream.java:Unknown line)
+	sun.misc.Resource.getBytes(Resource.java:Unknown line)
+	java.net.URLClassLoader.defineClass(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.access$100(URLClassLoader.java:Unknown line)
+TRACE 301317:
+	java.lang.ClassLoader.getPackage(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.getPackage(ClassLoader.java:Unknown line)
+	java.net.URLClassLoader.getAndVerifyPackage(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.definePackageInternal(URLClassLoader.java:Unknown line)
+TRACE 301661:
+	java.security.BasicPermission.newPermissionCollection(BasicPermission.java:Unknown line)
+	java.security.Permissions.getPermissionCollection(Permissions.java:Unknown line)
+	java.security.Permissions.add(Permissions.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.getPermissions(Launcher.java:Unknown line)
+TRACE 301230:
+	java.net.URL.<init>(URL.java:Unknown line)
+	java.net.URL.<init>(URL.java:Unknown line)
+	sun.misc.URLClassPath$FileLoader.getResource(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+TRACE 301116:
+	java.lang.String.startsWith(String.java:Unknown line)
+	sun.misc.MetaIndex.mayContain(MetaIndex.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.getResource(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+TRACE 301112:
+	sun.misc.URLClassPath.getNextLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+TRACE 301111:
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getNextLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getResource(URLClassPath.java:Unknown line)
+	java.net.URLClassLoader$1.run(URLClassLoader.java:Unknown line)
+TRACE 301104:
+	java.util.HashMap.newNode(HashMap.java:Unknown line)
+	java.util.HashMap.putVal(HashMap.java:Unknown line)
+	java.util.HashMap.put(HashMap.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+TRACE 301097:
+	java.util.ArrayList.ensureExplicitCapacity(ArrayList.java:Unknown line)
+	java.util.ArrayList.ensureCapacityInternal(ArrayList.java:Unknown line)
+	java.util.ArrayList.add(ArrayList.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+TRACE 301091:
+	java.lang.Math.max(Math.java:Unknown line)
+	java.util.ArrayList.calculateCapacity(ArrayList.java:Unknown line)
+	java.util.ArrayList.ensureCapacityInternal(ArrayList.java:Unknown line)
+	java.util.ArrayList.add(ArrayList.java:Unknown line)
+TRACE 300011:
+	java.security.AccessControlContext.optimize(AccessControlContext.java:Unknown line)
+	java.security.AccessController.getContext(AccessController.java:Unknown line)
+	java.lang.Thread.init(Thread.java:Unknown line)
+	java.lang.Thread.init(Thread.java:Unknown line)
+TRACE 301076:
+	java.io.File.compareTo(File.java:Unknown line)
+	java.io.File.equals(File.java:Unknown line)
+	java.util.HashMap.getNode(HashMap.java:Unknown line)
+	java.util.HashMap.get(HashMap.java:Unknown line)
+TRACE 301725:
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+TRACE 301746:
+	java.lang.ClassLoader.defineClass(ClassLoader.java:Unknown line)
+	java.security.SecureClassLoader.defineClass(SecureClassLoader.java:Unknown line)
+	java.net.URLClassLoader.defineClass(URLClassLoader.java:Unknown line)
+	java.net.URLClassLoader.access$100(URLClassLoader.java:Unknown line)
+TRACE 301828:
+	sun.launcher.LauncherHelper.validateMainClass(LauncherHelper.java:Unknown line)
+	sun.launcher.LauncherHelper.checkAndLoadMain(LauncherHelper.java:Unknown line)
+TRACE 301060:
+	java.lang.Character.toLowerCase(Character.java:Unknown line)
+	java.lang.String.toLowerCase(String.java:Unknown line)
+	java.io.WinNTFileSystem.hashCode(WinNTFileSystem.java:Unknown line)
+	java.io.File.hashCode(File.java:Unknown line)
+TRACE 301920:
+	java.util.Random.seedUniquifier(Random.java:Unknown line)
+	java.util.Random.<init>(Random.java:Unknown line)
+	RPG.example.Generator.genRandom(Generator.java:Unknown line)
+	RPG.example.Generator.generateRPG(Generator.java:Unknown line)
+TRACE 301046:
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath$3.run(URLClassPath.java:Unknown line)
+TRACE 301941:
+	java.util.concurrent.ConcurrentHashMap.transfer(ConcurrentHashMap.java:Unknown line)
+	java.util.concurrent.ConcurrentHashMap.addCount(ConcurrentHashMap.java:Unknown line)
+	java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:Unknown line)
+	java.util.concurrent.ConcurrentHashMap.putIfAbsent(ConcurrentHashMap.java:Unknown line)
+TRACE 301040:
+	java.lang.StringBuffer.append(StringBuffer.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+TRACE 301039:
+	java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:Unknown line)
+	java.lang.StringBuffer.append(StringBuffer.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+TRACE 301038:
+	java.lang.AbstractStringBuilder.ensureCapacityInternal(AbstractStringBuilder.java:Unknown line)
+	java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:Unknown line)
+	java.lang.StringBuffer.append(StringBuffer.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+TRACE 301037:
+	java.io.WinNTFileSystem.isSlash(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+TRACE 301996:
+	java.util.Arrays.sort(Arrays.java:Unknown line)
+	java.util.ArrayList.sort(ArrayList.java:Unknown line)
+	RPG.example.Generator.largestNSum(Generator.java:Unknown line)
+	RPG.example.Generator.generateRPG(Generator.java:Unknown line)
+TRACE 300998:
+	java.lang.String.lastIndexOf(String.java:Unknown line)
+	java.net.Parts.<init>(URL.java:Unknown line)
+	java.net.URL.<init>(URL.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+TRACE 300995:
+	java.lang.String.indexOf(String.java:Unknown line)
+	java.net.Parts.<init>(URL.java:Unknown line)
+	java.net.URL.<init>(URL.java:Unknown line)
+	sun.misc.URLClassPath$JarLoader.<init>(URLClassPath.java:Unknown line)
+TRACE 300969:
+	java.net.URLStreamHandler.toExternalForm(URLStreamHandler.java:Unknown line)
+	java.net.URL.toExternalForm(URL.java:Unknown line)
+	java.net.URL.toString(URL.java:Unknown line)
+	java.lang.String.valueOf(String.java:Unknown line)
+TRACE 300967:
+	java.lang.String.<init>(String.java:Unknown line)
+	java.lang.StringBuffer.toString(StringBuffer.java:Unknown line)
+	java.net.URLStreamHandler.toExternalForm(URLStreamHandler.java:Unknown line)
+	java.net.URL.toExternalForm(URL.java:Unknown line)
+TRACE 300954:
+	java.net.URL.getAuthority(URL.java:Unknown line)
+	java.net.URLStreamHandler.toExternalForm(URLStreamHandler.java:Unknown line)
+	java.net.URL.toExternalForm(URL.java:Unknown line)
+	java.net.URL.toString(URL.java:Unknown line)
+TRACE 302058:
+	sun.nio.cs.SingleByte$Encoder.encodeArrayLoop(SingleByte.java:Unknown line)
+	sun.nio.cs.SingleByte$Encoder.encodeLoop(SingleByte.java:Unknown line)
+	java.nio.charset.CharsetEncoder.encode(CharsetEncoder.java:Unknown line)
+	sun.nio.cs.StreamEncoder.implWrite(StreamEncoder.java:Unknown line)
+TRACE 300913:
+	java.lang.StringBuilder.append(StringBuilder.java:Unknown line)
+	sun.net.util.URLUtil.urlNoFragString(URLUtil.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+	sun.misc.URLClassPath.getNextLoader(URLClassPath.java:Unknown line)
+TRACE 300912:
+	java.lang.AbstractStringBuilder.append(AbstractStringBuilder.java:Unknown line)
+	java.lang.StringBuilder.append(StringBuilder.java:Unknown line)
+	sun.net.util.URLUtil.urlNoFragString(URLUtil.java:Unknown line)
+	sun.misc.URLClassPath.getLoader(URLClassPath.java:Unknown line)
+TRACE 300874:
+	java.lang.ClassLoader.findBootstrapClassOrNull(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+	sun.misc.Launcher$AppClassLoader.loadClass(Launcher.java:Unknown line)
+TRACE 300854:
+	java.util.concurrent.ConcurrentHashMap.putVal(ConcurrentHashMap.java:Unknown line)
+	java.util.concurrent.ConcurrentHashMap.putIfAbsent(ConcurrentHashMap.java:Unknown line)
+	java.lang.ClassLoader.getClassLoadingLock(ClassLoader.java:Unknown line)
+	java.lang.ClassLoader.loadClass(ClassLoader.java:Unknown line)
+TRACE 300836:
+	java.lang.StringCoding.decode(StringCoding.java:Unknown line)
+	java.lang.String.<init>(String.java:Unknown line)
+	java.lang.String.<init>(String.java:Unknown line)
+	sun.launcher.LauncherHelper.makePlatformString(LauncherHelper.java:Unknown line)
+TRACE 300750:
+	sun.misc.PostVMInitHook.trackJavaUsage(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook.run(PostVMInitHook.java:Unknown line)
+TRACE 300749:
+	sun.usagetracker.UsageTrackerClient.run(UsageTrackerClient.java:Unknown line)
+	sun.misc.PostVMInitHook.trackJavaUsage(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook.run(PostVMInitHook.java:Unknown line)
+TRACE 302117:
+	java.util.concurrent.atomic.AtomicLong.<init>(AtomicLong.java:Unknown line)
+	java.util.Random.<init>(Random.java:Unknown line)
+	java.util.Random.<init>(Random.java:Unknown line)
+	RPG.example.NaiveGenerator.genAttribute(NaiveGenerator.java:Unknown line)
+TRACE 300733:
+	java.lang.String.getBytes(String.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.registerUsage(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.setupAndTimestamp(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.access$000(UsageTrackerClient.java:Unknown line)
+TRACE 300704:
+	sun.nio.cs.UTF_8.newEncoder(UTF_8.java:Unknown line)
+	java.lang.StringCoding$StringEncoder.<init>(StringCoding.java:Unknown line)
+	java.lang.StringCoding$StringEncoder.<init>(StringCoding.java:Unknown line)
+	java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+TRACE 300686:
+	java.nio.charset.Charset.isSupported(Charset.java:Unknown line)
+	java.lang.StringCoding.lookupCharset(StringCoding.java:Unknown line)
+	java.lang.StringCoding.encode(StringCoding.java:Unknown line)
+	java.lang.String.getBytes(String.java:Unknown line)
+TRACE 300644:
+	sun.reflect.Reflection.verifyMemberAccess(Reflection.java:Unknown line)
+	sun.reflect.Reflection.ensureMemberAccess(Reflection.java:Unknown line)
+	java.lang.Class.newInstance(Class.java:Unknown line)
+	sun.nio.cs.FastCharsetProvider.lookup(FastCharsetProvider.java:Unknown line)
+TRACE 300508:
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.registerUsage(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.setupAndTimestamp(UsageTrackerClient.java:Unknown line)
+TRACE 300467:
+	java.io.WinNTFileSystem.canonicalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.getCanonicalPath(File.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.registerUsage(UsageTrackerClient.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient.setupAndTimestamp(UsageTrackerClient.java:Unknown line)
+TRACE 300386:
+	java.lang.String.charAt(String.java:Unknown line)
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.usagetracker.UsageTrackerClient$3.run(UsageTrackerClient.java:Unknown line)
+TRACE 300316:
+	sun.usagetracker.UsageTrackerClient.<clinit>(UsageTrackerClient.java:Unknown line)
+	sun.misc.PostVMInitHook.trackJavaUsage(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook.run(PostVMInitHook.java:Unknown line)
+TRACE 300247:
+	java.io.WinNTFileSystem.normalize(WinNTFileSystem.java:Unknown line)
+	java.io.File.<init>(File.java:Unknown line)
+	sun.misc.PostVMInitHook$1.run(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook$1.run(PostVMInitHook.java:Unknown line)
+TRACE 300239:
+	java.lang.StringBuilder.append(StringBuilder.java:Unknown line)
+	sun.misc.PostVMInitHook.getConfigFilePrivileged(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook.trackJavaUsage(PostVMInitHook.java:Unknown line)
+	sun.misc.PostVMInitHook.run(PostVMInitHook.java:Unknown line)
+TRACE 300205:
+	java.lang.CharacterData.of(CharacterData.java:Unknown line)
+	java.lang.Character.toLowerCase(Character.java:Unknown line)
+	java.lang.String.toLowerCase(String.java:Unknown line)
+	java.lang.String.toLowerCase(String.java:Unknown line)
+TRACE 300179:
+	java.lang.String.equals(String.java:Unknown line)
+	java.lang.System.checkKey(System.java:Unknown line)
+	java.lang.System.getProperty(System.java:Unknown line)
+	sun.misc.PostVMInitHook.trackJavaUsage(PostVMInitHook.java:Unknown line)
+TRACE 301063:
+	java.lang.String.toLowerCase(String.java:Unknown line)
+	java.io.WinNTFileSystem.hashCode(WinNTFileSystem.java:Unknown line)
+	java.io.File.hashCode(File.java:Unknown line)
+	java.util.HashMap.hash(HashMap.java:Unknown line)
+TRACE 300131:
+	java.lang.invoke.MethodHandleStatics$1.run(MethodHandleStatics.java:Unknown line)
+	java.lang.invoke.MethodHandleStatics$1.run(MethodHandleStatics.java:Unknown line)
+	java.lang.invoke.MethodHandleStatics.<clinit>(MethodHandleStatics.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300093:
+	java.lang.invoke.MethodHandleImpl.<clinit>(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+TRACE 300091:
+	java.lang.ClassValue.<init>(ClassValue.java:Unknown line)
+	java.lang.invoke.MethodHandleImpl$4.<init>(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandleImpl.<clinit>(MethodHandleImpl.java:Unknown line)
+	java.lang.invoke.MethodHandle.<clinit>(MethodHandle.java:Unknown line)
+CPU TIME (ms) BEGIN (total = 102) Thu Feb 06 01:00:22 2020
+rank   self  accum   count trace method
+   1  5.88%  5.88%       1 300737 java.io.FileOutputStream.access$000
+   2  4.90% 10.78%      12 301045 java.io.WinNTFileSystem.normalize
+   3  3.92% 14.71%     545 301059 java.lang.CharacterDataLatin1.toLowerCase
+   4  2.94% 17.65%      13 300922 sun.net.util.URLUtil.urlNoFragString
+   5  2.94% 20.59%     799 301036 java.lang.String.charAt
+   6  2.94% 23.53%       1 300162 java.lang.invoke.MethodHandle.<clinit>
+   7  1.96% 25.49%       4 302062 java.nio.charset.CharsetEncoder.encode
+   8  1.96% 27.45%      36 302124 RPG.example.NaiveGenerator.genAttribute
+   9  1.96% 29.41%       1 302126 RPG.example.Main.main
+  10  1.96% 31.37%    1090 301071 java.lang.String.charAt
+  11  1.96% 33.33%      12 301072 java.lang.String$CaseInsensitiveComparator.compare
+  12  1.96% 35.29%      13 301086 sun.misc.URLClassPath$3.run
+  13  1.96% 37.25%       3 301272 java.io.File.<init>
+  14  1.96% 39.22%       6 301429 sun.misc.PerfCounter.<init>
+  15  0.98% 40.20%       1 301578 sun.net.www.protocol.file.FileURLConnection.getPermission
+  16  0.98% 41.18%       2 301553 java.io.WinNTFileSystem.normalize
+  17  0.98% 42.16%       1 301530 sun.net.www.protocol.file.Handler.createFileURLConnection
+  18  0.98% 43.14%      14 301477 java.lang.String.<init>
+  19  0.98% 44.12%       1 301622 java.io.FilePermission.newPermissionCollection
+  20  0.98% 45.10%       1 301420 java.nio.DirectLongBufferU.<clinit>
+  21  0.98% 46.08%       1 301379 sun.misc.Perf$GetPerfAction.run
+  22  0.98% 47.06%       3 301368 sun.misc.Resource.getBytes
+  23  0.98% 48.04%       6 301362 java.io.FileInputStream.read
+  24  0.98% 49.02%       1 301317 java.lang.ClassLoader.getPackage
+  25  0.98% 50.00%       1 301661 java.security.BasicPermission.newPermissionCollection
+  26  0.98% 50.98%       6 301230 java.net.URL.<init>
+  27  0.98% 51.96%     159 301116 java.lang.String.startsWith
+  28  0.98% 52.94%      42 301112 sun.misc.URLClassPath.getNextLoader
+  29  0.98% 53.92%      42 301111 sun.misc.URLClassPath.getLoader
+  30  0.98% 54.90%      13 301104 java.util.HashMap.newNode
+  31  0.98% 55.88%      13 301097 java.util.ArrayList.ensureExplicitCapacity
+  32  0.98% 56.86%       9 301091 java.lang.Math.max
+  33  0.98% 57.84%       5 300011 java.security.AccessControlContext.optimize
+  34  0.98% 58.82%      12 301076 java.io.File.compareTo
+  35  0.98% 59.80%      15 301725 java.lang.ClassLoader.loadClass
+  36  0.98% 60.78%       3 301746 java.lang.ClassLoader.defineClass
+  37  0.98% 61.76%       1 301828 sun.launcher.LauncherHelper.validateMainClass
+  38  0.98% 62.75%     545 301060 java.lang.Character.toLowerCase
+  39  0.98% 63.73%       6 301920 java.util.Random.seedUniquifier
+  40  0.98% 64.71%      12 301046 java.io.WinNTFileSystem.normalize
+  41  0.98% 65.69%       2 301941 java.util.concurrent.ConcurrentHashMap.transfer
+  42  0.98% 66.67%     703 301040 java.lang.StringBuffer.append
+  43  0.98% 67.65%     703 301039 java.lang.AbstractStringBuilder.append
+  44  0.98% 68.63%     703 301038 java.lang.AbstractStringBuilder.ensureCapacityInternal
+  45  0.98% 69.61%     799 301037 java.io.WinNTFileSystem.isSlash
+  46  0.98% 70.59%       6 301996 java.util.Arrays.sort
+  47  0.98% 71.57%      12 300998 java.lang.String.lastIndexOf
+  48  0.98% 72.55%      12 300995 java.lang.String.indexOf
+  49  0.98% 73.53%      12 300969 java.net.URLStreamHandler.toExternalForm
+  50  0.98% 74.51%      15 300967 java.lang.String.<init>
+  51  0.98% 75.49%      60 300954 java.net.URL.getAuthority
+  52  0.98% 76.47%       4 302058 sun.nio.cs.SingleByte$Encoder.encodeArrayLoop
+  53  0.98% 77.45%      52 300913 java.lang.StringBuilder.append
+  54  0.98% 78.43%      52 300912 java.lang.AbstractStringBuilder.append
+  55  0.98% 79.41%      15 300874 java.lang.ClassLoader.findBootstrapClassOrNull
+  56  0.98% 80.39%      30 300854 java.util.concurrent.ConcurrentHashMap.putVal
+  57  0.98% 81.37%       1 300836 java.lang.StringCoding.decode
+  58  0.98% 82.35%       1 300750 sun.misc.PostVMInitHook.trackJavaUsage
+  59  0.98% 83.33%       1 300749 sun.usagetracker.UsageTrackerClient.run
+  60  0.98% 84.31%      36 302117 java.util.concurrent.atomic.AtomicLong.<init>
+  61  0.98% 85.29%       1 300733 java.lang.String.getBytes
+  62  0.98% 86.27%       1 300704 sun.nio.cs.UTF_8.newEncoder
+  63  0.98% 87.25%       1 300686 java.nio.charset.Charset.isSupported
+  64  0.98% 88.24%       1 300644 sun.reflect.Reflection.verifyMemberAccess
+  65  0.98% 89.22%       2 300508 java.io.WinNTFileSystem.normalize
+  66  0.98% 90.20%       1 300467 java.io.WinNTFileSystem.canonicalize
+  67  0.98% 91.18%     113 300386 java.lang.String.charAt
+  68  0.98% 92.16%       1 300316 sun.usagetracker.UsageTrackerClient.<clinit>
+  69  0.98% 93.14%       2 300247 java.io.WinNTFileSystem.normalize
+  70  0.98% 94.12%       7 300239 java.lang.StringBuilder.append
+  71  0.98% 95.10%      70 300205 java.lang.CharacterData.of
+  72  0.98% 96.08%       2 300179 java.lang.String.equals
+  73  0.98% 97.06%      12 301063 java.lang.String.toLowerCase
+  74  0.98% 98.04%       1 300131 java.lang.invoke.MethodHandleStatics$1.run
+  75  0.98% 99.02%       1 300093 java.lang.invoke.MethodHandleImpl.<clinit>
+  76  0.98% 100.00%       1 300091 java.lang.ClassValue.<init>
+CPU TIME (ms) END

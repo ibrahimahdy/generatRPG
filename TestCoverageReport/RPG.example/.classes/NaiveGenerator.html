@@ -1,0 +1,140 @@
+
+
+
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+<html id="htmlId">
+<head>
+  <title>Coverage Report :: NaiveGenerator</title>
+  <style type="text/css">
+    @import "../../.css/coverage.css";
+  </style>
+</head>
+
+<body>
+<div class="header"></div>
+
+<div class="content">
+<div class="breadCrumbs">
+    [ <a href="../../index.html">all classes</a> ]
+    [ <a href="../index.html">RPG.example</a> ]
+</div>
+
+<h1>Coverage Summary for Class: NaiveGenerator (RPG.example)</h1>
+
+<table class="coverageStats">
+<tr>
+  <th class="name">Class</th>
+<th class="coverageStat 
+">
+  Class, %
+</th>
+<th class="coverageStat 
+">
+  Method, %
+</th>
+<th class="coverageStat 
+">
+  Line, %
+</th>
+</tr>
+<tr>
+  <td class="name">NaiveGenerator</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (1/ 1)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (3/ 3)
+  </span>
+</td>
+<td class="coverageStat">
+  <span class="percent">
+    100%
+  </span>
+  <span class="absValue">
+    (23/ 23)
+  </span>
+</td>
+</tr>
+
+</table>
+
+<br/>
+<br/>
+
+
+<div class="sourceCode"><i>1</i>&nbsp;package RPG.example;
+<i>2</i>&nbsp;
+<i>3</i>&nbsp;import java.util.Random;
+<i>4</i>&nbsp;
+<i>5</i>&nbsp;/**
+<i>6</i>&nbsp; * NaiveGenerator is a class used to as RPG Attributes Generator for the task proposed at: https://rosettacode.org/wiki/RPG_Attributes_Generator
+<i>7</i>&nbsp; * This solutions is considered as naive one, on the basis of the solution presented at: https://rosettacode.org/wiki/RPG_Attributes_Generator#Java
+<i>8</i>&nbsp; */
+<b class="fc"><i>9</i>&nbsp;public class NaiveGenerator {</b>
+<i>10</i>&nbsp;
+<i>11</i>&nbsp;    /**
+<i>12</i>&nbsp;     * @return sum of generated 4 random values subtracting the smallest generated value of the generated 4.
+<i>13</i>&nbsp;     */
+<i>14</i>&nbsp;    int genAttribute(){
+<b class="fc"><i>15</i>&nbsp;        Random dice = new Random();</b>
+<b class="fc"><i>16</i>&nbsp;        int smallest =Integer.MAX_VALUE;</b>
+<i>17</i>&nbsp;        int myValue;
+<b class="fc"><i>18</i>&nbsp;        int total =0;</b>
+<b class="fc"><i>19</i>&nbsp;        for(int i=0; i&lt;=3; i++){</b>
+<b class="fc"><i>20</i>&nbsp;            myValue = dice.nextInt(6)+1;</b>
+<b class="fc"><i>21</i>&nbsp;            if(myValue&lt;smallest){</b>
+<b class="fc"><i>22</i>&nbsp;                smallest = myValue;</b>
+<i>23</i>&nbsp;            }
+<b class="fc"><i>24</i>&nbsp;            total+=myValue;</b>
+<i>25</i>&nbsp;        }
+<i>26</i>&nbsp;
+<b class="fc"><i>27</i>&nbsp;        return (total-smallest);</b>
+<i>28</i>&nbsp;    }
+<i>29</i>&nbsp;
+<i>30</i>&nbsp;
+<i>31</i>&nbsp;    /**
+<i>32</i>&nbsp;     * @return array including 6 generated values as RPG Attributes
+<i>33</i>&nbsp;     */
+<i>34</i>&nbsp;    int[] generateRPG(){
+<i>35</i>&nbsp;
+<b class="fc"><i>36</i>&nbsp;        int[] RPGValues = new int[6];</b>
+<b class="fc"><i>37</i>&nbsp;        int arraySum=0;</b>
+<b class="fc"><i>38</i>&nbsp;        int fifteenCount = 0;</b>
+<i>39</i>&nbsp;
+<b class="fc"><i>40</i>&nbsp;        while(fifteenCount &lt; 2 || arraySum &lt;75){</b>
+<b class="fc"><i>41</i>&nbsp;            RPGValues= new int[6];</b>
+<b class="fc"><i>42</i>&nbsp;            arraySum=0;</b>
+<b class="fc"><i>43</i>&nbsp;            fifteenCount = 0;</b>
+<i>44</i>&nbsp;
+<b class="fc"><i>45</i>&nbsp;            for (int i = 0; i &lt; 6; i++){</b>
+<b class="fc"><i>46</i>&nbsp;                RPGValues[i] = genAttribute();</b>
+<b class="fc"><i>47</i>&nbsp;                arraySum += RPGValues[i];</b>
+<b class="fc"><i>48</i>&nbsp;                if (RPGValues[i] &gt;= 15){</b>
+<b class="fc"><i>49</i>&nbsp;                    fifteenCount++;</b>
+<i>50</i>&nbsp;                }
+<i>51</i>&nbsp;            }
+<i>52</i>&nbsp;        }
+<i>53</i>&nbsp;
+<b class="fc"><i>54</i>&nbsp;        return RPGValues;</b>
+<i>55</i>&nbsp;    }
+<i>56</i>&nbsp;
+<i>57</i>&nbsp;}
+</div>
+</div>
+
+<div class="footer">
+    
+    <div style="float:right;">generated on 2020-02-06 01:22</div>
+</div>
+</body>
+</html>
