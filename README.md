@@ -1,6 +1,6 @@
 # RPGgenerator
 
-RPGgenerator is a simple console application works as [RPG Attributes Generator.](https://rosettacode.org/wiki/RPG_Attributes_Generator) 
+RPGgenerator is a simple console application in **Java** works as [RPG Attributes Generator.](https://rosettacode.org/wiki/RPG_Attributes_Generator) 
 
 
 ## Getting Started
